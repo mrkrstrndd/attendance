@@ -1,0 +1,22 @@
+form {
+	margin-top:5em;
+}
+form .form-group:nth-child(1){
+	margin:0;
+}
+input[type=text] {
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	padding:1.5em;
+	font-size:1.2em;
+}
+input[type=password] {
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+	border-top:0;
+	padding:1.5em;
+	font-size:1.2em;
+}
+.btn-length {
+	width: 100%;
+}

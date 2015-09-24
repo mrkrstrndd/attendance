@@ -10,11 +10,12 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Blade::setContentTags('<%', '%>');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Route::get('/mark', function(){
-	return 'hell0';
+Route::post('/student', function() {
+	return response()->json(['name' => 'Abigail', 'state' => 'CA']);
 });
