@@ -17,22 +17,26 @@
          });
 
          myApp.controller('logCtrl', function ($scope, $http){
+
             $scope.submit = function (){
+
+            //get TOKEN
             var CSRF_TOKEN = document.getElementsByTagName("meta")[0].getAttribute("content");
-            console.log(CSRF_TOKEN);
-           $.ajax({
-                    url: '../public/student',
-                    type: 'POST',
-                    data: {_token: CSRF_TOKEN},
-                    dataType: 'JSON',
-                    success: function (data) {
-                        console.log('success');
-                    },
-                    error: function(data)
-                    {
-                        console.log('failed')
-                    }
+
+            $http.post('../public/user', { _token:CSRF_TOKEN , uname: this.creduser, passwd:this.credpass })
+                .then(function (response){
+                    console.log(response);
+                }, function (failed){
+                    console.log('failed');
                 });
+
+            // $http.get('../public/user')
+            //     .success(function (response)
+            //     {
+            //         console.log(response);   
+            //     });
+
+
             }
          });
 

@@ -16,6 +16,13 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::post('/student', function() {
-	return response()->json(['name' => 'Abigail', 'state' => 'CA']);
-});
+// Route::post('/student', function() {
+//  	//if(Request::ajax()) {
+//       $data = Input::all();
+//     //}
+//     //var_dump($data['_token']);
+//     //exit();
+// 	return response()->json($data);
+// });
+
+Route::resource('user','UserController');
