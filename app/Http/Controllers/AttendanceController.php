@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Hash;
-use Crypt;
+use Response;
 use Input;
 use DB;
+use Hash;
 
-class UserController extends Controller
+
+class AttendanceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,13 +20,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json( array('stud' => array( ['name' => 'Abigail', 'country' => 'Philippines'], 
-                                                        ['name' => 'Mark', 'country' => 'Japan'],
-                                                        ['name' => 'Michael', 'country' => 'China'],
-                                                        ['name' => 'Ailee', 'country' => 'Belgium'],
-                                                        ['name' => 'Anna', 'country' => 'Germany'],
-                                                        ['name' => 'Ariston', 'country' => 'Vietnam'],
-                                                        ['name' => 'Ken', 'country' => 'Cambodia'])));
+          $data = DB::table('attendance')->get();
+          return response()->json(array('user' => $data), 200);
     }
 
     /**
@@ -35,14 +31,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        if(Request::ajax())
-        {
-            echo 'detected';
-        }
-        else
-        {
-            echo 'not detected';
-        }
+        //
     }
 
     /**
@@ -53,23 +42,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-       if( $request != null)
-       {
-            $uname = Input::get('uname');
-            $pwd = Input::get('passwd');
-            
-            if( !empty($uname) && !empty($pwd) )
-            {
-                $id = DB::table('student')->insertGetId(
-                    ['username' => $uname , 'pass_hash' => Crypt::encrypt($pwd) ]
-                );
-                return $id;
+        if( $request->uname && $request->passwd && $request->_token )
+        {
+            $users = DB::table('user')
+                        ->select('user_id','password')
+                        ->where('username', $request->uname)
+                        ->first();
+
+            if($users){
+                if (Hash::check($request->passwd, $users->password))
+                {
+                    $id = DB::table('attendance')->insertGetId(
+                        ['fk_user_id' => $users->user_id, 'created_at' => date('Y-m-d H:i:s') ]
+                    );
+
+                    if($id)
+                        return Response::json(array('user_id' => $users->user_id), 200);
+                    else
+                        return Response::json(array('message' => 'No Content'), 204);
+                }
             }
-            else
-            {
-                return 'not ok';
-            }
-       }
+            return Response::json(array('message' => 'No Content'), 204);
+        }
     }
 
     /**

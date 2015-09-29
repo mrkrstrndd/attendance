@@ -26,3 +26,5 @@ Route::get('/', function () {
 // });
 
 Route::resource('user','UserController');
+
+Route::resource('attendance','AttendanceController');
