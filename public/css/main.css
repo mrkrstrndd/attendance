@@ -1,3 +1,15 @@
+/*Angular Animate*/
+
+.fade-in-out {
+  transition: 1s linear all;  
+  opacity: 1;
+}
+
+.fade-in-out.ng-hide {
+  opacity: 0;
+}
+
+/*Angular Animate End*/
 form {
 	margin-top:5em;
 }
@@ -23,4 +35,14 @@ input[type=password] {
 
 td{
 	padding-left:2em;
+}
+.error-text{
+	margin-top: 1em;
+    padding: 0.4em;
+    text-align: center;
+    border-radius: 1em;
+}
+
+thead td{
+	font-weight: bold;
 }
